@@ -6,28 +6,32 @@ const footerEl = document.querySelector('footer')
 
 // Creo un array vuoto
 let bomb = [];
+
 //  Variante per il punteggio
 let score= 0
+
+//Setto la variante gameover su false
+let gameover=false
 
 // Aggiungo l'eventListener al bottone
 btnSend.addEventListener('click', function(){
     containerEl.innerHTML = '';
 
-
     if(selectEl.value == 'easy'){
         cellContainer (100, 'easy')
         random (100)
-        activeCell()
+        activeCell(100)
     } else if (selectEl.value == 'medium'){
         cellContainer(81, 'medium')
         random (81)
-        activeCell()
+        activeCell(81)
     } else {
         cellContainer (49, 'hard')
         random (49)
-        activeCell()
+        activeCell(49)
     }
-
+    
+    
     footerEl.innerHTML = "<span> Made with &hearts; by Boolean</span>";
     footerEl.style.padding='2rem'
    
@@ -44,7 +48,6 @@ function cellContainer (maxCells, difficulty){
         const cellDom = `<div class="cell ${difficulty}">${i}</div>` 
         containerEl.innerHTML += cellDom
     }
-
 }
 
 // Funzione per i numeri casuali
@@ -55,7 +58,6 @@ function pcRandom(min, max) {
 // Ciclo i numeri in una funzione per generare le 16 bombe
 function random (maxCells){
     let i = 1;
-
     while (i <= 16) {
 
         const randomNumb = pcRandom(1, maxCells); 
@@ -68,27 +70,36 @@ function random (maxCells){
         i++;
     }
     console.log(bomb);
+    
 }
 
 // Funzione per le attivare le celle
-function activeCell() {
+function activeCell(maxCells) {
   
     //seleziono tutte le celle 
     const cells = document.querySelectorAll('.cell');
 
     for (let i = 0; i < cells.length; i++) {
-    const thisCell = cells[i];
+        const thisCell = cells[i];
 
         // Aggiungo un event listener
         thisCell.addEventListener('click', function() {
 
-            if (thisCell[i] === bomb[i]) {
-                thisCell.classList.toggle('bg_loser');
+            if(bomb.includes(Number(thisCell.innerHTML))) {
+                thisCell.classList.add('bg_loser');
                 alert(`Mi dispiace! Hai perso! Il tuo punteggio è: ${score}`)
+                gameover= true;
+                return
             } else {
                 thisCell.classList.toggle('bg_continue');
                 score ++
                 console.log(`Hai cliccato la casella ${thisCell.innerHTML}`);
+            }
+
+            // Stabilisco la vittoria
+            if (score == (maxCells - 16)){
+                alert(`Complimenti! Hai vinto! Il tuo punteggio è: ${score}`)
+                gameover= false
             }
         })
 
@@ -104,7 +115,6 @@ function activeCell() {
 }
 
 
-    
 
 /*Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
