@@ -11,7 +11,9 @@ header{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding: 0.5rem;
+
+    background-color: darkslategrey;
 }
 
 .head_left{
@@ -24,6 +26,8 @@ img{
 
 h1{
     align-self: center;
+    margin-left: 1rem;
+    color: rgb(243, 211, 211);
 }
 
 .head_right{
@@ -35,16 +39,20 @@ select{
 }
 
 button{
-    padding:0 1rem ;
+    padding:0 1rem;
+    border-radius: 20px;
 }
 
 /*Main*/
+main{
+    background-color: lightsteelblue;
+    padding: 0.7rem 0;
+}
 .container{
     display: flex;
     flex-wrap: wrap;
     width: 470px;
     margin: auto;
-    
 }
 
 .cell{
@@ -64,4 +72,9 @@ button{
 
 .bg_continue{
     background-color: lightsalmon;
+}
+
+/*Footer*/
+footer{
+    background-color: navajowhite;
 }
