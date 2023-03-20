@@ -58,6 +58,10 @@ button{
     justify-content: center;
 }
 
-.bg_active{
-    background-color: greenyellow;
+.bg_loser{
+    background-color: red;
+}
+
+.bg_continue{
+    background-color: lightsalmon;
 }

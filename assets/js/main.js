@@ -10,9 +10,11 @@ const footerEl = document.querySelector('footer')
 btnSend.addEventListener('click', function(){
     containerEl.innerHTML = '';
 
+
     if(selectEl.value == 'easy'){
         cellContainer (100, 'easy')
         random (100)
+        activeCell()
     } else if (selectEl.value == 'medium'){
         cellContainer(81, 'medium')
         random (81)
@@ -34,30 +36,9 @@ function cellContainer (maxCells, difficulty){
         containerEl.innerHTML += cellDom
     }
 
-    //Seleziono tutte le celle
-    const cells = document.querySelectorAll('.cell');
-   
-    // Seleziono ogni cella
-    for (let i = 0; i < cells.length; i++) {
-        
-        const thisCell = cells[i];
-
-        //Aggiungo un event listener al click
-        thisCell.addEventListener('click', function() {
-            thisCell.classList.toggle('bg_active');
-            console.log(`Hai cliccato la casella ${thisCell.innerHTML}`);
-        }) 
-        
-        if(selectEl.value == 'easy'){
-            thisCell.style.width='calc(100% / 10)'
-        } else if (selectEl.value == 'medium'){
-            thisCell.style.width='calc(100% / 9)'
-        } else {
-            thisCell.style.width='calc(100% / 7)'
-        }
-    }
-    
 }
+
+
 
 /*Il computer deve generare 16 numeri casuali nello stesso range della difficoltà prescelta: le bombe.
 nella stessa cella può essere posizionata al massimo una bomba, perciò nell’array delle bombe non potranno esserci due numeri uguali.
@@ -86,7 +67,7 @@ function random (maxCells){
 
     while (i <= 16) {
 
-        let randomNumb = pcRandom(1, maxCells); 
+        const randomNumb = pcRandom(1, maxCells); 
 
         if (!bomb.includes(randomNumb)) {
             bomb.push(randomNumb);
@@ -95,6 +76,42 @@ function random (maxCells){
         }
         i++;
     }
-
     console.log(bomb);
 }
+
+// Funzione per le attivare le celle
+function activeCell() {
+  
+    //seleziono tutte le celle 
+    const cells = document.querySelectorAll('.cell');
+
+    for (let i = 0; i < cells.length; i++) {
+    const thisCell = cells[i];
+
+        // Aggiungo un event listener
+        thisCell.addEventListener('click', function() {
+
+            if (thisCell[i] === bomb[i]) {
+                thisCell.classList.toggle('bg_loser');
+                alert('Mi dispiace! Hai perso!')
+            } else {
+                thisCell.classList.toggle('bg_continue');
+                console.log(`hai cliccato la casella ${thisCell.innerHTML}`);
+            }
+        })
+        
+        // Dimensioni delle celle nei vari livelli
+        if(selectEl.value == 'easy'){
+            thisCell.style.width='calc(100% / 10)'
+        } else if (selectEl.value == 'medium'){
+            thisCell.style.width='calc(100% / 9)'
+        } else {
+            thisCell.style.width='calc(100% / 7)'
+        }
+    }  
+
+
+}
+
+
+    
